@@ -30,9 +30,9 @@
 
 <style>
 
-body{
+/* body{
   padding: 10rem 0;
-}
+} */
 
 :root {
   --color-sub: #2d2d39;

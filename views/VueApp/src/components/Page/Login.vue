@@ -25,8 +25,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorUsername.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorUsername }}</div>
+            <div v-if="PesanErrorUsername.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorUsername }}</div>
             </div>
   
             <!-- Input:Password -->
@@ -42,8 +42,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorPassword.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorPassword }}</div>
+            <div v-if="PesanErrorPassword.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorPassword }}</div>
             </div>
 
             <div class="auth__actions">

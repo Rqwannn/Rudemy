@@ -1,24 +1,28 @@
 <template>
-  <div class="nav-bar">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white nav-1">
-      <div class="container mw-0 px-3">
-
-        <a class="navbar-brand" href="#">
-        <img src="../../assets/brand-name.png" width="" height="27" class="d-inline-block align-top" alt="" loading="lazy">
+  <div>
+    <header class="header">
+      <div class="container container--narrow">
+        <a href="#" class="header__logo" style="color: #fff;">
+         Rudemy
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-            <li class="nav-item" v-if="accessToken!=null"><router-link :to = "{ name:'logout' }">Logout</router-link></li>
+        <nav class="header__nav">
+          <input type="checkbox" id="responsive-menu" />
+          <label for="responsive-menu" class="toggle-menu">
+            <span>Menu</span>
+            <div class="toggle-menu__lines"></div>
+          </label>
+          <ul class="header__menu">
+            <li class="header__menuItem"><a href="#" style="color: #fff;">Developers</a></li>
+            <li class="header__menuItem"><a href="#" style="color: #fff;">Course</a></li>
+            
+              <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
+              <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>
+              <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
+              <li class="header__menuItem"><a href="#" class="btn btn--sub" style="color: #fff;">Login/Sign Up</a></li>
           </ul>
-        </div>
-
+        </nav>
       </div>
-    </nav>
+    </header>
   </div>
 </template>
 

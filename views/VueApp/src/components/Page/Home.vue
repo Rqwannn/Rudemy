@@ -1,28 +1,77 @@
 <template>
-  <div class="posts">
+  <div>
     <Navbar></Navbar> 
-      <div class="album py-5 bg-light">
-          <div class="container">
-            <div class="row">
-              <div v-for="posts in APIData" :key="posts.id" class="col-md-4">
-                <div class="card mb-4 box-shadow">
-                  <img class="card-img-top" src="https://via.placeholder.com/150x100" alt="Card image cap">
-                  <div class="card-body">
-                      <h4 class=""><a class="text-secondary" href="">{{posts.title}}</a></h4>
-                      <p class="card-text">{{posts.content}}</p>
-                      <div class="d-flex justify-content-between align-items-center">
-                      <div class="btn-group">
-                      <a href="" class="btn btn-sm btn-outline-primary" role="button" aria-pressed="true">View</a>
-                      <a href="" class="btn btn-sm btn-outline-secondary" role="button" aria-pressed="true">Edit</a>
-                      </div>
-                      <small class="text-muted">9 mins</small>
+
+    <main class="home">
+      <section class="hero-section text-center">
+        <div class="container container--narrow">
+          <div class="hero-section__box">
+            <h2>CONNECT WITH <span>DEVELOPERS</span></h2>
+            <h2>FROM AROUND THE WORLD</h2>
+          </div>
+
+          <div class="hero-section__search">
+            <form id="searchForm" class="form" action="#" method="get">
+              <div class="form__field">
+                <label for="formInput#search">Search Developers</label>
+                <input
+                  class="input input--text"
+                  id="formInput#search"
+                  type="text"
+                  name="search_query"
+                  value=""
+                  placeholder="Search by developer name or short intro"
+                />
+              </div>
+
+              <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+            </form>
+          </div>
+        </div>
+      </section>
+      <!-- Search Result: DevList -->
+      <section class="devlist">
+        <div class="container">
+          <div class="grid grid--three">
+            <div class="column card">
+              <div class="dev">
+                <a href="#" class="card__body">
+                  <div class="dev__profile">
+                    <img
+                      class="avatar avatar--md"
+                      src="#"
+                      alt="image"
+                    />
+                    <div class="dev__meta">
+                      <h3>Ridwan</h3>
+                      <h5>Hallo Semua</h5>
                     </div>
                   </div>
-                </div>
+                  <p class="dev__info">
+                    <!-- {{result.bio|slice:"150"}} -->
+                    <!-- slice berfungsi agar karakter tidak lebih dari 150 pada saat di render -->
+                  </p>
+                  <div class="dev__skills">
+                    <!-- Slice di sini berfungsi agar data hanya di panggil maximal 5 data -->
+                    <!-- {% for skill in result.skill_set.all|slice:'5' %} -->
+                    <span class="tag tag--pill tag--main">
+                      <small>Django</small>
+                    </span>
+                    <!-- {% endfor %} -->
+                  </div>
+                </a>
               </div>
             </div>
+            <!-- {% endfor %} -->
           </div>
-      </div>
+        </div>
+      </section>
+
+      <!-- with dan seterusnya menandakan jika query akan mendapat data dari instance project yang di berikan di view -->
+      
+      <!-- {% include 'pagination.html' with query=data custom_range=custom_range %} -->
+
+    </main>
   </div>
 </template>
 

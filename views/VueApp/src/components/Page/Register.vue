@@ -23,8 +23,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorName.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorName }}</div>
+            <div v-if="PesanErrorName.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorName }}</div>
             </div>
 
             <!-- Input:Email -->
@@ -39,8 +39,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorEmail.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorEmail }}</div>
+            <div v-if="PesanErrorEmail.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorEmail }}</div>
             </div>
 
             <!-- Input:Username -->
@@ -55,8 +55,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorUsername.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorUsername }}</div>
+            <div v-if="PesanErrorUsername.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorUsername }}</div>
             </div>
   
             <!-- Input:Password -->
@@ -71,8 +71,8 @@
               />
             </div>
 
-            <div v-if="PesanErrorPassword.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorPassword }}</div>
+            <div v-if="PesanErrorPassword.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorPassword }}</div>
             </div>
 
             <!-- Input:Confirm Password -->
@@ -87,12 +87,12 @@
               />
             </div>
 
-            <div v-if="PesanErrorConfirmPassword.length > 0" style="background: #dc3545;" class="d-flex justify-content-center py-2 position-relative">
-              <div class="text-light">{{ PesanErrorConfirmPassword }}</div>
+            <div v-if="PesanErrorConfirmPassword.length > 0" style="background: #dc3545; display: flex; justify-content: center; padding: 10px 0; position:relative">
+              <div style="color: #fff;">{{ PesanErrorConfirmPassword }}</div>
             </div>
 
             <div class="auth__actions">
-              <input class="btn btn--sub btn--lg" type="submit" value="Log In" />
+              <input class="btn btn--sub btn--lg" type="submit" value="Sign Up" />
             </div>
           </form>
           <div class="auth__alternative">
@@ -138,24 +138,24 @@
                   if(this.username.length == 0 && i == 1){
                     this.incorrectAuth = true
                     this.PesanErrorUsername = "Username field cannot be empty";
-                  } else if(this.password1.length == 0 && i == 2){
-                    this.incorrectAuth = true
-                    this.PesanErrorPassword = "Password field cannot be empty";
-                  } else if(this.password2.length == 0 && i == 3){
-                    this.incorrectAuth = true
-                    this.PesanErrorConfirmPassword = "Confirm password cannot be empty";
-                  } else if(this.email.length == 0 && i == 4){
-                    this.incorrectAuth = true
-                    this.PesanErrorEmail = "Email field cannot be empty";
-                  } else if(!this.email.includes("@") && this.email.length > 0 && i == 5){
-                    this.incorrectAuth = true
-                    this.PesanErrorEmail = "Email must have an @ symbol";
-                  } else if(this.first_name.length == 0 && i == 6){
-                    this.incorrectAuth = true
-                    this.PesanErrorName = "Name field cannot be empty";
-                  } else if(!this.password1.includes(this.password2) && i == 7 || (this.password1.length > 0 || this.password2.length > 0)){
+                  } else if(this.password1 != this.password2 && i == 2){
                     this.incorrectAuth = true
                     this.PesanErrorPassword = "Passwords are not the same";
+                  } else if(this.password1.length == 0 && i == 3){
+                    this.incorrectAuth = true
+                    this.PesanErrorPassword = "Password field cannot be empty";
+                  } else if(this.password2.length == 0 && i == 4){
+                    this.incorrectAuth = true
+                    this.PesanErrorConfirmPassword = "Confirm password cannot be empty";
+                  } else if(this.email.length == 0 && i == 5){
+                    this.incorrectAuth = true
+                    this.PesanErrorEmail = "Email field cannot be empty";
+                  } else if(!this.email.includes("@") && this.email.length > 0 && i == 6){
+                    this.incorrectAuth = true
+                    this.PesanErrorEmail = "Email must have an @ symbol";
+                  } else if(this.first_name.length == 0 && i == 7){
+                    this.incorrectAuth = true
+                    this.PesanErrorName = "Name field cannot be empty";
                   } else if(!this.incorrectAuth && i == 8) {
                     this.$store.dispatch('userRegis', {
                         first_name: this.first_name,
