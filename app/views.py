@@ -7,16 +7,11 @@ from django.contrib import messages
 from .models import *
 from .serializers import *
 from .forms import *
+from .utils import *
 
 # Create your views here.
 
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def ProfileView(request):
-    queryset = Profile.objects.all()
-    serializers = ProfileSerializers(queryset, many=True)
-    return Response(serializers.data)
+# Auth Logic
 
 
 @api_view(['POST'])
@@ -38,3 +33,22 @@ def RegisterUser(request):
         }
 
         return Response(data)
+
+# End Auth Logic
+
+# Developer Page Logic
+
+
+@api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
+def ProfileView(request):
+    queryset, search_query = SearchProfiles(request)
+
+    serializers = ProfileSerializers(queryset, many=True)
+    data = {
+        'data': serializers.data,
+        'search': search_query,
+    }
+    return Response(data)
+
+# End Developer Page Logic

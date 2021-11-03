@@ -11,7 +11,7 @@
           </div>
 
           <div class="hero-section__search">
-            <form id="searchForm" class="form" action="#" method="get">
+            <form id="searchForm" class="form" @submit.prevent="SearchDev">
               <div class="form__field">
                 <label for="formInput#search">Search Developers</label>
                 <input
@@ -19,7 +19,7 @@
                   id="formInput#search"
                   type="text"
                   name="search_query"
-                  value=""
+                  v-model="SearchData"
                   placeholder="Search by developer name or short intro"
                 />
               </div>
@@ -33,36 +33,35 @@
       <section class="devlist">
         <div class="container">
           <div class="grid grid--three">
-            <div class="column card">
+
+            <div class="column card" v-for="result in APIData" :key="result.id">
               <div class="dev">
                 <a href="#" class="card__body">
                   <div class="dev__profile">
                     <img
                       class="avatar avatar--md"
-                      src="#"
+                      :src="Path + '' + result.profile_image"
                       alt="image"
                     />
                     <div class="dev__meta">
-                      <h3>Ridwan</h3>
-                      <h5>Hallo Semua</h5>
+                      <h3>{{ result.name }}</h3>
+                      <h5>{{ result.short_intro }}</h5>
                     </div>
                   </div>
                   <p class="dev__info">
-                    <!-- {{result.bio|slice:"150"}} -->
-                    <!-- slice berfungsi agar karakter tidak lebih dari 150 pada saat di render -->
+                    {{ result.bio }}
                   </p>
                   <div class="dev__skills">
-                    <!-- Slice di sini berfungsi agar data hanya di panggil maximal 5 data -->
-                    <!-- {% for skill in result.skill_set.all|slice:'5' %} -->
-                    <span class="tag tag--pill tag--main">
-                      <small>Django</small>
+
+                    <span class="tag tag--pill tag--main" v-for="skill in result.skill" :key="skill.id">
+                      <small>{{ skill.name }}</small>
                     </span>
-                    <!-- {% endfor %} -->
+
                   </div>
                 </a>
               </div>
             </div>
-            <!-- {% endfor %} -->
+
           </div>
         </div>
       </section>
@@ -77,6 +76,8 @@
 
 <script>
   import NavBar from '../Template/Navbar'
+  import Pagination from '../Template/Pagination'
+  import { URL } from '../../ApiBaseUrl'
   import { axios } from '../../axios-api'
   import { mapState } from 'vuex'
 
@@ -84,7 +85,9 @@
     name: 'Posts',
     data(){
       return {
-        Title: 'Home | Rudemy'
+        Title: 'Home | Rudemy',
+        Path: URL,
+        SearchData: ""
       }
     },
     onIdle () {
@@ -94,13 +97,14 @@
         })
     },
     components: {
-      'Navbar': NavBar
+      'Navbar': NavBar,
+      'Pagination': Pagination
     },
     computed: mapState(['APIData']), // Memanggil state APIData yang berada di store.js
     created () {
       axios.get('/api/profile/', { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
         .then(response => {
-          this.$store.state.APIData = response.data
+          this.$store.state.APIData = response.data.data;
         })
         .catch(err => {
           console.log(err)
@@ -114,6 +118,21 @@
           }
         },
       },
+      methods:{
+        SearchDev: function(){
+          const Data = {
+            'search_query': this.SearchData
+          }
+
+          axios.post('/api/profile/', Data, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+          .then(response => {
+            this.$store.state.APIData = response.data.data;
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        }
+      }
   }
 </script>
 

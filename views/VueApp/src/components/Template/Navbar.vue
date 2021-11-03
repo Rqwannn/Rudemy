@@ -15,10 +15,10 @@
             <li class="header__menuItem"><a href="#" style="color: #fff;">Developers</a></li>
             <li class="header__menuItem"><a href="#" style="color: #fff;">Course</a></li>
             
-              <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
-              <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>
-              <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
-              <li class="header__menuItem"><a href="#" class="btn btn--sub" style="color: #fff;">Login/Sign Up</a></li>
+            <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
+            <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>
+            <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
+            <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'login'}">Login/Sign Up</router-link>
           </ul>
         </nav>
       </div>
