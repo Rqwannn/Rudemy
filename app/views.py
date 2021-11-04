@@ -41,7 +41,7 @@ def RegisterUser(request):
 
 class ProfileAPI(ListAPIView):
     queryset = Profile.objects.all()
-    # permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     serializer_class = APIProfileSerializers
     pagination_class = NumberPagination
     api_view = ['GET', 'POST']
@@ -61,3 +61,18 @@ class ProfileAPI(ListAPIView):
         return self.list(request, *args, **kwargs)
 
 # End Developer Page Logic
+
+# Course Logic
+
+
+class CourseAPI(ListAPIView):
+    queryset = Course.objects.all()
+    permission_classes = [IsAuthenticated]
+    serializer_class = APICourseSerializers
+    pagination_class = NumberPagination
+    api_view = ['GET', 'POST']
+
+    def get_queryset(self):
+        return self.queryset
+
+# End Course Logic

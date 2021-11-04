@@ -74,7 +74,8 @@ export default {
               if(data.next != null){
                     const PisahPath = data.next.split("/");
                     const AmbilTerakhir = PisahPath[PisahPath.length - 1];
-                    this.Next = AmbilTerakhir;
+                    const urlParams = new URLSearchParams(AmbilTerakhir);
+                    this.Next = `?page=${urlParams.get('page')}`;
                 } else {
                     this.Next = '';
                 }
@@ -82,11 +83,12 @@ export default {
                 if(data.previous != null){
                     const PisahPath = data.previous.split("/");
                     const AmbilTerakhir = PisahPath[PisahPath.length - 1];
-                
-                    if(AmbilTerakhir == ''){
+
+                    if(AmbilTerakhir == '' || (AmbilTerakhir.includes('search_query') && !AmbilTerakhir.includes('page') )){
                         this.Prev = '?page=1';
                     } else {
-                        this.Prev = AmbilTerakhir;
+                        const urlParams = new URLSearchParams(AmbilTerakhir);
+                        this.Prev = `?page=${urlParams.get('page')}`;
                     }
 
                 } else {
@@ -99,7 +101,10 @@ export default {
               setParams = '?page=1'
           }
           
-          let URL = `/api/profile/${setParams}`;
+          let URL = `/api/${this.$store.state.StatusPaginate}/${setParams}`;
+
+            console.log(this.$name);
+
           let URLPath = `${this.$route.path}${setParams}`
           if(this.$store.state.SearchQuery != ""){
               URL += `&search_query=${this.$store.state.SearchQuery}`

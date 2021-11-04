@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Page/Home'
+import Course from '@/components/Page/Course'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
 import Logout from '@/components/Page/Logout'
@@ -13,6 +14,14 @@ const Url =
             path: '/',
             name: 'Home',
             component: Home,
+            meta: {
+                requiresLogin: true
+            }
+        },
+        {
+            path: '/Course',
+            name: 'Course',
+            component: Course,
             meta: {
                 requiresLogin: true
             }

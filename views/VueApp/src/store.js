@@ -16,7 +16,8 @@ export default new Vuex.Store({
      SearchQuery: "",
      PaginationPrev: null,
      PaginationNext: null,
-     APIData: []
+     APIData: [],
+     StatusPaginate: '',
   },
   mutations: {
     updateStorage (state, { access, refresh }) {
@@ -82,6 +83,6 @@ export default new Vuex.Store({
                 reject(err)
               })
           })
+        }
     }
-  }
 })

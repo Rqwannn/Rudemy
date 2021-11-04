@@ -12,8 +12,16 @@
             <div class="toggle-menu__lines"></div>
           </label>
           <ul class="header__menu">
-            <li class="header__menuItem"><a href="#" style="color: #fff;">Developers</a></li>
-            <li class="header__menuItem"><a href="#" style="color: #fff;">Course</a></li>
+            <router-link tag="li" class="header__menuItem" :to="{name:'Home'}">
+              <a href="#" style="color: #fff;">
+                Developers
+              </a>
+            </router-link>
+            <router-link tag="li" class="header__menuItem" :to="{name:'Course'}">
+              <a href="#" style="color: #fff;">
+                Course
+              </a>
+            </router-link>
             
             <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
             <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>

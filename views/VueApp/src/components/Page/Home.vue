@@ -81,7 +81,7 @@
     name: 'Posts',
     data(){
       return {
-        Title: 'Home | Rudemy',
+        Title: 'Developer | Rudemy',
         Path: URL,
         SearchData: "",
       }
@@ -98,6 +98,7 @@
     },
     computed: mapState(['APIData']), // Memanggil state APIData yang berada di store.js
     created () {
+      this.$store.state.StatusPaginate = 'profile';
 
       axios.get('/api/profile/', { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
         .then(response => {
@@ -105,17 +106,14 @@
             const PisahPath = response.data.next.split("/");
             const AmbilTerakhir = PisahPath[PisahPath.length - 1];
             this.$store.state.PaginationNext = AmbilTerakhir;
-          } else {
-            this.Next = '';
           }
 
           if(response.data.previous != null){
             const PisahPath = response.data.previous.split("/");
             const AmbilTerakhir = PisahPath[PisahPath.length - 1];
             this.$store.state.PaginationPrev = AmbilTerakhir;
-          } else {
-            this.Prev = '';
-          }
+          } 
+
           if(response.data.count > response.data.results.length){
             this.$router.push(`${this.$route.path}?page=1`).catch(() => {});
           }
