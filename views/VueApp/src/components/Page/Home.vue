@@ -34,13 +34,13 @@
         <div class="container">
           <div class="grid grid--three">
 
-            <div class="column card" v-for="result in APIData" :key="result.id">
+            <div class="column card" v-for="result in APIData.results" :key="result.id">
               <div class="dev">
                 <a href="#" class="card__body">
                   <div class="dev__profile">
                     <img
                       class="avatar avatar--md"
-                      :src="Path + '' + result.profile_image"
+                      :src="result.profile_image"
                       alt="image"
                     />
                     <div class="dev__meta">
@@ -65,11 +65,7 @@
           </div>
         </div>
       </section>
-
-      <!-- with dan seterusnya menandakan jika query akan mendapat data dari instance project yang di berikan di view -->
-      
-      <!-- {% include 'pagination.html' with query=data custom_range=custom_range %} -->
-
+      <Pagination></Pagination>
     </main>
   </div>
 </template>
@@ -87,7 +83,7 @@
       return {
         Title: 'Home | Rudemy',
         Path: URL,
-        SearchData: ""
+        SearchData: "",
       }
     },
     onIdle () {
@@ -102,9 +98,29 @@
     },
     computed: mapState(['APIData']), // Memanggil state APIData yang berada di store.js
     created () {
+
       axios.get('/api/profile/', { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
         .then(response => {
-          this.$store.state.APIData = response.data.data;
+          if(response.data.next != null){
+            const PisahPath = response.data.next.split("/");
+            const AmbilTerakhir = PisahPath[PisahPath.length - 1];
+            this.$store.state.PaginationNext = AmbilTerakhir;
+          } else {
+            this.Next = '';
+          }
+
+          if(response.data.previous != null){
+            const PisahPath = response.data.previous.split("/");
+            const AmbilTerakhir = PisahPath[PisahPath.length - 1];
+            this.$store.state.PaginationPrev = AmbilTerakhir;
+          } else {
+            this.Prev = '';
+          }
+          if(response.data.count > response.data.results.length){
+            this.$router.push(`${this.$route.path}?page=1`).catch(() => {});
+          }
+
+          this.$store.state.APIData = response.data;
         })
         .catch(err => {
           console.log(err)
@@ -123,10 +139,19 @@
           const Data = {
             'search_query': this.SearchData
           }
+          let URLPattern = `/api/profile${this.$route.fullPath}` 
+          this.$store.state.SearchQuery = this.SearchData;
 
-          axios.post('/api/profile/', Data, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+          if(this.SearchData != ""){
+            URLPattern += `&search_query=${this.SearchData}`
+          } else {
+            URLPattern = `/api/profile/`;
+            this.$router.push('/?page=1').catch(() => {});
+          }
+
+          axios.get(URLPattern, Data, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
           .then(response => {
-            this.$store.state.APIData = response.data.data;
+            this.$store.state.APIData = response.data;
           })
           .catch(err => {
             console.log(err)

@@ -13,6 +13,9 @@ export default new Vuex.Store({
      accessToken: null,
      refreshToken: null,
      message: "",
+     SearchQuery: "",
+     PaginationPrev: null,
+     PaginationNext: null,
      APIData: []
   },
   mutations: {

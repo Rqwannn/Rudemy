@@ -1,25 +1,122 @@
 <template>
     <div>
-        <!-- {% if query.has_other_pages %} -->
-        <div class="pagination">
+        <div class="pagination" v-if="Next != '' || Prev != ''">
             <ul class="container">
-                <!-- {% if query.has_previous %} -->
-                <li><a href="#" class="btn page-link" data-page="#">Prev</a></li>
-                <!-- {% endif %} -->
+                <li v-if="Prev != ''">
+                    <a :href="Prev" class="btn page-link" @click.prevent="ClickPagination($event)" :data-page="Prev">Prev</a>
+                </li>
 
-                <!-- {% for result in custom_range %} -->
-                <!-- {% if result == query.number %} -->
-                    <li><a href="#" class="btn page-link btn--sub" data-page="#">#</a></li>
-                    <!-- {% else %} -->
-                    <li><a href="#" class="btn page-link" data-page="#">#</a></li>
-                <!-- {% endif %} -->
-                <!-- {% endfor %} -->
+                <li v-for="result in Data.count - Data.results.length" :key="result">
+                    <a :href="'?page=' + result " v-if="result == AktifPage" id="PagePagination" @click.prevent="ClickPagination($event)" :data-page="'?page=' + result" class="btn page-link CheckIndex btn--sub">{{ result }}</a>
+                    <a :href="'?page=' + result " v-else @click.prevent="ClickPagination($event)" :data-page="'?page=' + result " class="btn CheckIndex page-link">{{ result }}</a>
+                </li>
 
-                <!-- {% if query.has_next %} -->
-                <li><a href="#" class="btn page-link" data-page="#">Next</a></li>
-                <!-- {% endif %} -->
+                <li v-if="Next != ''">
+                    <a :href="Next" class="btn page-link" @click.prevent="ClickPagination($event)" :data-page="Next">Next</a>
+                </li>
             </ul>
         </div>
-        <!-- {% endif %} -->
     </div>
 </template>
+
+<script>
+    import { axios } from '../../axios-api'
+
+export default {
+    data(){
+        return {
+            Data: [],
+            Next: '',
+            Prev: '',
+            LeftIndex: 0,
+            RightIndex: 0,
+            AktifPage: 1,
+        }
+    },
+    created(){
+        this.Data = this.$store.state.APIData;
+        this.Next = this.$store.state.PaginationNext;
+        this.Prev = this.$store.state.PaginationPrev;
+    },
+    updated(){
+        this.AktifPage = this.$route.query.page;
+        this.CostumTotalBTN()
+    },
+    computed: {
+        change () {
+            return this.$store.state.APIData
+        }
+    },
+    watch: {
+        change (newData, oldData) {
+            this.checkNextPrev(newData);
+        }
+    },
+    methods: {
+        CostumTotalBTN: function(){
+            const Page = this.$route.query.page;
+            let leftIndex = parseInt(Page) - 1;
+
+            if (leftIndex < 1){
+                leftIndex = 1
+            }
+
+            let rightIndex = parseInt(Page) + 1;
+
+            if( rightIndex > Page){
+                rightIndex = parseInt(Page)
+            }
+
+            this.LeftIndex = leftIndex;
+            this.RightIndex = rightIndex;
+        },
+        checkNextPrev: function(data){
+              if(data.next != null){
+                    const PisahPath = data.next.split("/");
+                    const AmbilTerakhir = PisahPath[PisahPath.length - 1];
+                    this.Next = AmbilTerakhir;
+                } else {
+                    this.Next = '';
+                }
+
+                if(data.previous != null){
+                    const PisahPath = data.previous.split("/");
+                    const AmbilTerakhir = PisahPath[PisahPath.length - 1];
+                
+                    if(AmbilTerakhir == ''){
+                        this.Prev = '?page=1';
+                    } else {
+                        this.Prev = AmbilTerakhir;
+                    }
+
+                } else {
+                    this.Prev = '';
+                }
+        },
+        ClickPagination: function(e){
+          let setParams = e.target.dataset.page
+          if(setParams == ""){
+              setParams = '?page=1'
+          }
+          
+          let URL = `/api/profile/${setParams}`;
+          let URLPath = `${this.$route.path}${setParams}`
+          if(this.$store.state.SearchQuery != ""){
+              URL += `&search_query=${this.$store.state.SearchQuery}`
+              URLPath += `&search_query=${this.$store.state.SearchQuery}`
+          }
+
+          axios.get(URL, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+          .then(response => {
+                this.checkNextPrev(response)
+                this.$store.state.APIData = response.data;
+          })
+          .catch(err => {
+            console.log(err)
+          })
+
+          this.$router.push(URLPath).catch(() => {});
+        }
+    }
+}
+</script>

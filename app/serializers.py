@@ -21,7 +21,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProfileSerializers(serializers.ModelSerializer):
+class APIProfileSerializers(serializers.ModelSerializer):
     user = UserSerializer(many=False)
     skill = TagSerializer(many=True)
 
