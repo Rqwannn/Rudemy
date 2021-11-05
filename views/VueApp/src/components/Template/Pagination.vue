@@ -97,13 +97,12 @@ export default {
         },
         ClickPagination: function(e){
           let setParams = e.target.dataset.page
+
           if(setParams == ""){
               setParams = '?page=1'
           }
           
           let URL = `/api/${this.$store.state.StatusPaginate}/${setParams}`;
-
-            console.log(this.$name);
 
           let URLPath = `${this.$route.path}${setParams}`
           if(this.$store.state.SearchQuery != ""){

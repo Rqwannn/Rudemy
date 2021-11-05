@@ -8,12 +8,12 @@
                     <div class="hero-section__box">
                         <h2>Search for <span>Course</span></h2>
                     </div>
-
+  
                     <div class="hero-section__search">
-                    <form id="searchForm" class="form" action="#" method="get">
+                    <form id="searchForm" class="form" @submit.prevent="SearchDev">
                         <div class="form__field">
                         <label for="formInput#search">Search By Course</label>
-                        <input class="input input--text" id="formInput#search" type="text" name="search_query"
+                        <input class="input input--text" id="formInput#search" type="text" v-model="SearchData"
                             placeholder="Search by Project Title" />
                         </div>
 
@@ -68,6 +68,7 @@ export default {
     data(){
         return {
             Title: 'Course | Rudemy',
+            SearchData: "",
         }
     },
     components: {
@@ -113,8 +114,44 @@ export default {
         immediate: true,
           handler() {
             document.title = this.Title;
+            this.$store.commit('setPath', { path: this.$route.fullPath })
           }
         },
       },
+    methods: {
+        SearchDev: function(){
+          let SetupPath = '';
+          const ReplacePath = this.$route.fullPath.split('?');
+
+          ReplacePath.forEach( ( data, number ) => {
+            if(number > 0){
+              if(number < 2){
+                SetupPath += `?${data}`
+              } else {
+                SetupPath += `${data}`
+              }
+            } else {
+              SetupPath += `${data}/`
+            }
+          })
+
+          let URLPattern = `/api${SetupPath.toLowerCase()}` 
+          this.$store.state.SearchQuery = this.SearchData;
+
+          if(this.SearchData != ""){
+            URLPattern += `&search_query=${this.SearchData}`
+          } else {
+            URLPattern = `/api/course/`;
+            this.$router.push('/Course?page=1').catch(() => {});
+          }
+          axios.get(URLPattern, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+          .then(response => {
+            this.$store.state.APIData = response.data;
+          })
+          .catch(err => {
+            console.log(err)
+          })
+        }
+    }
 }
 </script>

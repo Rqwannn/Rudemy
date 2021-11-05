@@ -12,4 +12,5 @@ urlpatterns = [
     path('register/', views.RegisterUser, name='Register'),
     path('profile/', views.ProfileAPI.as_view(), name='Profile'),
     path('course/', views.CourseAPI.as_view(), name='Course'),
+    path('auth/', views.LoginAuthentication, name='LoginAuth'),
 ]

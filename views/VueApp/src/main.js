@@ -35,6 +35,7 @@ router.beforeEach((to, from, next) => {
     if (!Vuex.getters.loggedIn) {
       next({ name: 'login' })
     } else {
+      Vuex.state.SearchQuery = "";
       next()
     }
   } else {

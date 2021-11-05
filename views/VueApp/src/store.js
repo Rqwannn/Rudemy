@@ -18,6 +18,9 @@ export default new Vuex.Store({
      PaginationNext: null,
      APIData: [],
      StatusPaginate: '',
+     Permissions: false,
+     UserData: [],
+     ActivePath: ''
   },
   mutations: {
     updateStorage (state, { access, refresh }) {
@@ -27,10 +30,20 @@ export default new Vuex.Store({
     destroyToken (state) {
       state.accessToken = null
       state.refreshToken = null
+      state.Permissions = false
+      state.UserData = []
     },
     updateMessage(state, { pesan }){
         state.message = pesan
-    }
+    },
+    updateUserAuth(state, { user }){
+      state.UserData = user
+      state.Permissions = true
+    },
+    setPath(state, { path }){
+      state.ActivePath = path
+    },
+
   },
   getters: {
     loggedIn (state) {
@@ -47,6 +60,21 @@ export default new Vuex.Store({
       }
     },
     userLogin (context, usercredentials) {
+      axios.post('/api/auth/', {
+        username: usercredentials.username,
+        password: usercredentials.password
+      }).then(response => {
+          if(response.data.status){
+            context.commit('updateUserAuth', { data: response.data }) 
+          } else {
+            context.commit('updateMessage', {
+              pesan: `${response.data.messages}`
+            })
+          }
+      }).catch(err => {
+        console.log(err)
+      })
+
       return new Promise((resolve, reject) => {
         axios.post('/api/token/', {
           username: usercredentials.username,
@@ -57,11 +85,6 @@ export default new Vuex.Store({
             resolve()
           })
           .catch(err => {
-            if (err.response.status === 401) {
-              context.commit('updateMessage', {
-                pesan: 'Your username or password is wrong'
-              })
-            }
             reject(err)
           })
       })

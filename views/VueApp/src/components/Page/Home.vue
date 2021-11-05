@@ -129,14 +129,12 @@
         immediate: true,
           handler() {
             document.title = this.Title;
+            this.$store.commit('setPath', { path: this.$route.fullPath })
           }
         },
       },
       methods:{
         SearchDev: function(){
-          const Data = {
-            'search_query': this.SearchData
-          }
           let URLPattern = `/api/profile${this.$route.fullPath}` 
           this.$store.state.SearchQuery = this.SearchData;
 
@@ -147,7 +145,7 @@
             this.$router.push('/?page=1').catch(() => {});
           }
 
-          axios.get(URLPattern, Data, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+          axios.get(URLPattern, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
           .then(response => {
             this.$store.state.APIData = response.data;
           })

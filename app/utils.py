@@ -7,9 +7,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 def SearchProfiles(request):
     search_query = ''
 
-    if request.data.get('search_query'):
-        search_query = request.data.get('search_query')
-    elif request.GET.get('search_query'):
+    if request.GET.get('search_query'):
         search_query = request.GET.get('search_query')
 
     skill = Tag.objects.filter(name__iexact=search_query)
@@ -17,6 +15,18 @@ def SearchProfiles(request):
         Q(name__icontains=search_query) | Q(short_intro__icontains=search_query) | Q(skill__in=skill))
 
     return dataDev, search_query
+
+
+def SearchCourse(request):
+    search_query = ''
+
+    if request.GET.get('search_query'):
+        search_query = request.GET.get('search_query')
+
+    data = Course.objects.distinct().filter(
+        Q(title__icontains=search_query) | Q(description__icontains=search_query))
+
+    return data, search_query
 
 
 class NumberPagination(PageNumberPagination):

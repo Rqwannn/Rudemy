@@ -2,7 +2,7 @@
   <div>
     <header class="header">
       <div class="container container--narrow">
-        <a href="#" class="header__logo" style="color: #fff;">
+        <a :href="{name:'Home'}" class="header__logo" style="color: #fff;">
          Rudemy
         </a>
         <nav class="header__nav">
@@ -25,8 +25,8 @@
             
             <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
             <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>
-            <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
-            <router-link class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'login'}">Login/Sign Up</router-link>
+            <router-link v-if="Permissions" class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
+            <router-link v-else class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'login'}">Login/Sign Up</router-link>
           </ul>
         </nav>
       </div>
@@ -39,7 +39,7 @@
   
   export default {
     name: 'Navbar',
-    computed: mapState(['accessToken'])
+    computed: mapState(['accessToken', 'Permissions'])
   }
 </script>
 
