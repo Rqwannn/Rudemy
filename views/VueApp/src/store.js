@@ -43,7 +43,6 @@ export default new Vuex.Store({
     setPath(state, { path }){
       state.ActivePath = path
     },
-
   },
   getters: {
     loggedIn (state) {
@@ -65,7 +64,7 @@ export default new Vuex.Store({
         password: usercredentials.password
       }).then(response => {
           if(response.data.status){
-            context.commit('updateUserAuth', { data: response.data }) 
+            context.commit('updateUserAuth', { user: response.data.UserData }) 
           } else {
             context.commit('updateMessage', {
               pesan: `${response.data.messages}`

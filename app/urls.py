@@ -13,4 +13,5 @@ urlpatterns = [
     path('profile/', views.ProfileAPI.as_view(), name='Profile'),
     path('course/', views.CourseAPI.as_view(), name='Course'),
     path('auth/', views.LoginAuthentication, name='LoginAuth'),
+    path('profileUser/<str:user>', views.getSingleUser, name='ProfileUser'),
 ]

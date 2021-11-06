@@ -97,6 +97,14 @@ class ProfileAPI(ListAPIView):
     def post(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getSingleUser(request, user):
+    data = Profile.objects.get(user=user)
+    serializer = APIProfileSerializers(data, many=False)
+    return Response(serializer.data)
+
 # End Developer Page Logic
 
 # Course Logic

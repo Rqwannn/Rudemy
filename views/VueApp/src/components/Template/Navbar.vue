@@ -24,7 +24,11 @@
             </router-link>
             
             <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
-            <li class="header__menuItem"><a href="#" style="color: #fff;">Account</a></li>
+            <router-link tag="li" class="header__menuItem" :to="{name:'Account'}">
+              <a href="#" style="color: #fff;">
+                Account
+              </a>
+            </router-link>
             <router-link v-if="Permissions" class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'logout'}">Logout</router-link>
             <router-link v-else class="btn btn--sub" style="color: #fff;" tag="li" :to="{name:'login'}">Login/Sign Up</router-link>
           </ul>
