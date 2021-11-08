@@ -33,6 +33,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class MessageSerializer(serializers.ModelSerializer):
+    sender = ProfileSerializer(many=False)
+    recipient = ProfileSerializer(many=False)
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
 class APICourseSerializers(serializers.ModelSerializer):
     owner = ProfileSerializer(many=False)
     tags = TagSerializer(many=True)

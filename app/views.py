@@ -125,3 +125,22 @@ class CourseAPI(ListAPIView):
         return self.queryset
 
 # End Course Logic
+
+# Inbox Logic
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getMessage(request, pk):
+    profile = Profile.objects.get(user=pk)
+    data = profile.messages.all()
+    unread = data.filter(is_read=False).count()
+
+    serializer = MessageSerializer(data, many=True)
+    context = {
+        'data': serializer.data,
+        'unred': unread
+    }
+    return Response(context)
+
+# End Inbox Logic

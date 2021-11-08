@@ -22,8 +22,11 @@
                 Course
               </a>
             </router-link>
-            
-            <li class="header__menuItem"><a href="#" style="color: #fff;">Inbox</a></li>
+            <router-link tag="li" class="header__menuItem" :to="{name:'Inbox'}">
+              <a href="#" style="color: #fff;">
+                Inbox
+              </a>
+            </router-link>
             <router-link tag="li" class="header__menuItem" :to="{name:'Account'}">
               <a href="#" style="color: #fff;">
                 Account
