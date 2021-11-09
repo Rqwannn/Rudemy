@@ -36,7 +36,7 @@
 
             <div class="column card" v-for="result in APIData.results" :key="result.id">
               <div class="dev">
-                <a href="#" class="card__body">
+                <router-link :to="{name:'UserProfile', params: {id: result.id}}" class="card__body">
                   <div class="dev__profile">
                     <img
                       class="avatar avatar--md"
@@ -58,7 +58,7 @@
                     </span>
 
                   </div>
-                </a>
+                </router-link>
               </div>
             </div>
 

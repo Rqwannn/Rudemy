@@ -6,6 +6,8 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponseNotFound
+from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from .models import *
 from .serializers import *
 from .forms import *
@@ -105,6 +107,31 @@ def getSingleUser(request, user):
     serializer = APIProfileSerializers(data, many=False)
     return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def UserProfile(request, pk):
+    try:
+        profile = request.user.profile
+    except:
+        profile = None
+
+    try:
+        dataDev = Profile.objects.get(id=pk)
+        serializer = APIProfileSerializers(dataDev, many=False)
+        profile_serializer = ProfileSerializer(profile, many=False)
+
+        data = {
+            'data': serializer.data,
+            'profile': profile_serializer.data
+        }
+
+        return Response(data)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('Not Found')
+    except ValidationError:
+        return HttpResponseNotFound('Not Found')
+
 # End Developer Page Logic
 
 # Course Logic
@@ -129,8 +156,8 @@ class CourseAPI(ListAPIView):
 # Inbox Logic
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@ api_view(['GET'])
+@ permission_classes([IsAuthenticated])
 def getMessage(request, pk):
     profile = Profile.objects.get(user=pk)
     data = profile.messages.all()

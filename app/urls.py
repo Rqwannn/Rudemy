@@ -15,4 +15,5 @@ urlpatterns = [
     path('auth/', views.LoginAuthentication, name='LoginAuth'),
     path('profileUser/<str:user>', views.getSingleUser, name='ProfileUser'),
     path('getMessage/<str:pk>', views.getMessage, name='Inbox'),
+    path('getUser/<str:pk>', views.UserProfile, name='GetUser'),
 ]

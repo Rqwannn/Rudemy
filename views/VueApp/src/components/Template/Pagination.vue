@@ -40,7 +40,6 @@ export default {
     },
     updated(){
         this.AktifPage = this.$route.query.page;
-        this.CostumTotalBTN()
     },
     computed: {
         change () {
@@ -53,23 +52,6 @@ export default {
         }
     },
     methods: {
-        CostumTotalBTN: function(){
-            const Page = this.$route.query.page;
-            let leftIndex = parseInt(Page) - 1;
-
-            if (leftIndex < 1){
-                leftIndex = 1
-            }
-
-            let rightIndex = parseInt(Page) + 1;
-
-            if( rightIndex > Page){
-                rightIndex = parseInt(Page)
-            }
-
-            this.LeftIndex = leftIndex;
-            this.RightIndex = rightIndex;
-        },
         checkNextPrev: function(data){
               if(data.next != null){
                     const PisahPath = data.next.split("/");

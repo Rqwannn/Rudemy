@@ -39,7 +39,7 @@
                                         Feedback ({{result.vote_total}} Vote{{result.vote_total > 1 ? 's' : ''}} )
                                     </p>
                                     <div class="project__tags">
-                                        <span class="tag tag--pill tag--main" v-for="item in result.skill" :key="item.id">
+                                        <span class="tag tag--pill tag--main" v-for="item in result.tags" :key="item.id">
                                             <small>{{ item.name }}</small>
                                         </span>
                                     </div>
