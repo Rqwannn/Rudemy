@@ -15,21 +15,36 @@ class TagSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ReviewSerializer(serializers.ModelSerializer):
+class ProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(many=False)
+
     class Meta:
-        model = Review
+        model = Profile
         fields = '__all__'
 
 
-class ProfileSerializer(serializers.ModelSerializer):
+class ReviewCourseSerializers(serializers.ModelSerializer):
+    owner = ProfileSerializer(many=False)
+    tags = TagSerializer(many=True)
+
     class Meta:
-        model = Profile
+        model = Course
+        fields = "__all__"
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    owner = ProfileSerializer(many=False)
+    course = ReviewCourseSerializers(many=False)
+
+    class Meta:
+        model = Review
         fields = '__all__'
 
 
 class CourseSerializer(serializers.ModelSerializer):
     owner = ProfileSerializer(many=False)
     tags = TagSerializer(many=True)
+    review_set = ReviewSerializer(many=True)
 
     class Meta:
         model = Course

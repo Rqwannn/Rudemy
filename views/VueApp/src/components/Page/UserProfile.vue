@@ -88,7 +88,6 @@ export default {
     created(){
         axios.get(`/api/getUser/${this.$route.params.id}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
         .then(response => {
-            console.log(response);
             this.Data = response.data.data;
             this.Profile = response.data.profile;
         })

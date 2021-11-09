@@ -11,3 +11,13 @@ class RegisterForm(UserCreationForm):
         labels = {
             'first_name': 'Name'
         }
+
+
+class ReviewForm(ModelForm):
+    class Meta:
+        model = Review
+        fields = ['value', 'body']
+        labels = {
+            'value': 'Place Your Vote',
+            'body': 'Add A Comment With Your Vote'
+        }

@@ -16,4 +16,6 @@ urlpatterns = [
     path('profileUser/<str:user>', views.getSingleUser, name='ProfileUser'),
     path('getMessage/<str:pk>', views.getMessage, name='Inbox'),
     path('getUser/<str:pk>', views.UserProfile, name='GetUser'),
+    path('getCourse/<str:pk>', views.UserCourse, name='GetCourse'),
+    path('insertReview/', views.ReviewCourse, name='insertReview'),
 ]

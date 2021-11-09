@@ -53,7 +53,7 @@ def LoginAuthentication(request):
     user = authenticate(request, username=usernameField,
                         password=passwordField)
 
-    serializers = UserSerializer(user, many=False)
+    serializers = UserSerializer(data, many=False)
 
     if CekUsername:
         if user is not None:
@@ -150,6 +150,53 @@ class CourseAPI(ListAPIView):
             self.queryset = data
 
         return self.queryset
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def UserCourse(request, pk):
+    try:
+        profile = request.user.profile
+    except:
+        profile = None
+
+    try:
+        dataCourse = Course.objects.get(id=pk)
+        serializer = CourseSerializer(dataCourse, many=False)
+        profile_serializer = ProfileSerializer(profile, many=False)
+
+        data = {
+            'data': serializer.data,
+            'profile': profile_serializer.data,
+            'authenticated': request.user.is_authenticated
+        }
+
+        return Response(data)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('Not Found')
+    except ValidationError:
+        return HttpResponseNotFound('Not Found')
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def ReviewCourse(request):
+    AllData = Course.objects.get(id=request.data.get('id'))
+
+    insertData = {
+        'value': request.data.get('value'),
+        'body': request.data.get('body'),
+    }
+
+    form = ReviewForm(insertData)
+    review = form.save(commit=False)
+    review.course = AllData
+    review.owner = request.user.profile
+    review.save()
+
+    AllData.getVoteCount
+
+    return Response('Success')
 
 # End Course Logic
 

@@ -29,22 +29,22 @@
 
                         <div class="column" v-for="result in APIData.results" :key="result.id">
                             <div class="card project">
-                                <a href="#" class="project">
-                                <img class="project__thumbnail" :src="result.featured_image" alt="project thumbnail" />
-                                <div class="card__body">
-                                    <h3 class="project__title">{{ result.title }}</h3>
-                                    <p><a class="project__author" href="#">{{ result.description }}</a></p>
-                                    <p class="project--rating">
-                                        <span style="font-weight: bold;">{{ result.vote_ratio }}%</span> Positive
-                                        Feedback ({{result.vote_total}} Vote{{result.vote_total > 1 ? 's' : ''}} )
-                                    </p>
-                                    <div class="project__tags">
-                                        <span class="tag tag--pill tag--main" v-for="item in result.tags" :key="item.id">
-                                            <small>{{ item.name }}</small>
-                                        </span>
-                                    </div>
-                                </div>
-                                </a>
+                                <router-link :to="{name:'UserCourse', params: {id: result.id}}" class="project">
+                                  <img class="project__thumbnail" :src="result.featured_image" alt="project thumbnail" />
+                                  <div class="card__body">
+                                      <h3 class="project__title">{{ result.title }}</h3>
+                                      <p><a class="project__author" href="#">{{ result.description }}</a></p>
+                                      <p class="project--rating">
+                                          <span style="font-weight: bold;">{{ result.vote_ratio }}%</span> Positive
+                                          Feedback ({{result.vote_total}} Vote{{result.vote_total > 1 ? 's' : ''}} )
+                                      </p>
+                                      <div class="project__tags">
+                                          <span class="tag tag--pill tag--main" v-for="item in result.tags" :key="item.id">
+                                              <small>{{ item.name }}</small>
+                                          </span>
+                                      </div>
+                                  </div>
+                                </router-link>
                             </div>
                         </div>
 
