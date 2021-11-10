@@ -7,11 +7,11 @@
                 <h3 class="inbox__title">New Messages(<span>{{ Unread }}</span>)</h3>
                 <ul class="messages">
                         <li class="message" :class="result.is_read ? '' : 'message--unread' " v-for="result in Data" :key="result.id">
-                            <a href="#">
+                            <router-link :to="{name:'Message', params: {id: result.id}}">
                                 <span class="message__author">{{ result.name }}</span>
                                 <span class="message__subject">{{ result.subject }}</span>
                                 <span class="message__date">{{ result.created.split('T')[0] }}</span>
-                            </a>
+                            </router-link>
                         </li>
                 </ul>
             </div>

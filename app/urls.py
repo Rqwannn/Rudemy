@@ -18,4 +18,5 @@ urlpatterns = [
     path('getUser/<str:pk>', views.UserProfile, name='GetUser'),
     path('getCourse/<str:pk>', views.UserCourse, name='GetCourse'),
     path('insertReview/', views.ReviewCourse, name='insertReview'),
+    path('UserMassage/<str:pk>', views.userMessage, name='UserMassage'),
 ]

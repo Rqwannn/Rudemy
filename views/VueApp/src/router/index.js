@@ -6,6 +6,7 @@ import Account from '@/components/Page/Account'
 import Inbox from '@/components/Page/Inbox'
 import UserProfile from '@/components/Page/UserProfile'
 import UserCourse from '@/components/Page/UserCourse'
+import Message from '@/components/Page/Message'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
 import Logout from '@/components/Page/Logout'
@@ -59,6 +60,15 @@ const Url =
             path: '/UserCourse/:id',
             name: 'UserCourse',
             component: UserCourse,
+            props: true,
+            meta: {
+                requiresLogin: true
+            }
+        },
+        {
+            path: '/Message/:id',
+            name: 'Message',
+            component: Message,
             props: true,
             meta: {
                 requiresLogin: true

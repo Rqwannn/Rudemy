@@ -203,8 +203,8 @@ def ReviewCourse(request):
 # Inbox Logic
 
 
-@ api_view(['GET'])
-@ permission_classes([IsAuthenticated])
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def getMessage(request, pk):
     profile = Profile.objects.get(user=pk)
     data = profile.messages.all()
@@ -217,4 +217,24 @@ def getMessage(request, pk):
     }
     return Response(context)
 
-# End Inbox Logic
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def userMessage(request, pk):
+    try:
+        profile = request.user.profile
+        data = profile.messages.get(id=pk)
+
+        if data.is_read == False:
+            data.is_read = True
+            data.save()
+
+        serializer = MessageSerializer(data, many=False)
+
+        return Response(serializer.data)
+    except ObjectDoesNotExist:
+        return HttpResponseNotFound('Not Found')
+    except ValidationError:
+        return HttpResponseNotFound('Not Found')
+
+    # End Inbox Logic
