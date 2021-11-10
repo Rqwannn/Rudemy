@@ -13,3 +13,23 @@ def CreatedProfile(sender, instance, created, **kwargs):
             user=user,
             name=user.first_name
         )
+
+
+@receiver(post_save, sender=Profile)
+def UpdateUser(sender, instance, created, **kwargs):
+    data = instance
+    user = data.user
+    if created == False:
+        user.first_name = data.name
+        user.username = data.username
+        user.email = data.email
+        user.save()
+
+
+@receiver(post_delete, sender=Profile)
+def DeleteUser(sender, instance, **kwargs):
+    try:
+        user = instance.user
+        user.delete()
+    except:
+        pass

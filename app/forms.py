@@ -21,3 +21,9 @@ class ReviewForm(ModelForm):
             'value': 'Place Your Vote',
             'body': 'Add A Comment With Your Vote'
         }
+
+
+class MessageForm(ModelForm):
+    class Meta:
+        model = Message
+        fields = ['name', 'email', 'subject', 'body']

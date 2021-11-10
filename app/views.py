@@ -237,4 +237,42 @@ def userMessage(request, pk):
     except ValidationError:
         return HttpResponseNotFound('Not Found')
 
-    # End Inbox Logic
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def InsertMessage(request):
+    recipient = Profile.objects.get(id=request.data.get('id'))
+
+    try:
+        sender = request.user.profile
+    except:
+        sender = None
+
+    setRequest = {
+        'name': request.data.get('name'),
+        'email': request.data.get('email'),
+        'subject': request.data.get('subject'),
+        'body': request.data.get('body')
+    }
+
+    form = MessageForm(setRequest)
+
+    if form.is_valid():
+        form = form.save(commit=False)
+        form.sender = sender
+        form.recipient = recipient
+
+        if sender:
+            form.name = sender.name
+            form.email = sender.user.email
+
+        form.save()
+
+        result = {
+            'Pesan': "Your Message Has Been Send",
+            'IdentityUser': recipient.id
+        }
+
+        return Response(result)
+
+# End Inbox Logic

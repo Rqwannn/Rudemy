@@ -7,6 +7,7 @@ import Inbox from '@/components/Page/Inbox'
 import UserProfile from '@/components/Page/UserProfile'
 import UserCourse from '@/components/Page/UserCourse'
 import Message from '@/components/Page/Message'
+import Message_Form from '@/components/Page/Message_Form'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
 import Logout from '@/components/Page/Logout'
@@ -69,6 +70,15 @@ const Url =
             path: '/Message/:id',
             name: 'Message',
             component: Message,
+            props: true,
+            meta: {
+                requiresLogin: true
+            }
+        },
+        {
+            path: '/Message_Form/:id',
+            name: 'Message_Form',
+            component: Message_Form,
             props: true,
             meta: {
                 requiresLogin: true

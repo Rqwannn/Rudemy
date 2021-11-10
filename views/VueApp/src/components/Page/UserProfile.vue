@@ -12,9 +12,9 @@
                             <h2 class="dev__name">{{Data.name}}</h2>
                             <p class="dev__title">{{Data.short_intro}}</p>
                             <p class="dev__location">Based In {{Data.location}}</p>
-                            <a href="#" v-if="Data.id != Profile.id" style="margin-top: 10px;" class="btn btn--sub btn--lg">
+                            <router-link :to="{name:'Message_Form', params: {id: Data.id}}" v-if="Data.id != Profile.id" style="margin-top: 10px;" class="btn btn--sub btn--lg">
                                 Send Message 
-                            </a>
+                            </router-link>
                         </div>
                     </div>
                     </div>
