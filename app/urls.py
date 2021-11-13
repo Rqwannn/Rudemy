@@ -21,4 +21,5 @@ urlpatterns = [
     path('getMessage/<str:pk>', views.getMessage, name='Inbox'),
     path('UserMassage/<str:pk>', views.userMessage, name='UserMassage'),
     path('InsertMessage/', views.InsertMessage, name='InsertMassage'),
+    path('DeleteSkill/<str:pk>', views.DeleteSkill, name='DeleteSkill'),
 ]

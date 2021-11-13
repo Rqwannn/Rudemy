@@ -38,19 +38,12 @@
                 <table class="settings__table">
                     <tr v-for="result in DataProfile.skill" :key="result.id">
                         <td class="settings__tableInfo">
-                        <h4>{{ result.name }}</h4>
+                            <h4>{{ result.name }}</h4>
                         </td>
                         <td class="settings__tableActions">
-                        <a
-                            class="tag tag--pill tag--main settings__btn"
-                            href="#"
-                            ><i class="im im-edit"></i> Edit</a
-                        >
-                        <a
-                            class="tag tag--pill tag--main settings__btn"
-                            href="#"
-                            ><i class="im im-x-mark-circle-o"></i> Delete</a
-                        >
+                            <a class="tag tag--pill tag--main settings__btn" href="#" @click.prevent="DeleteSkill(result.id)">
+                                <i class="im im-x-mark-circle-o"></i> Delete
+                            </a>
                         </td>
                     </tr>
                 </table>
@@ -124,12 +117,42 @@ export default {
         },
     },
     created(){
-        axios.get(`api/profileUser/${this.$store.state.UserData.id}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+        this.getData();
+    },
+    methods:{
+        DeleteSkill: function(e){
+            axios.delete(`api/DeleteSkill/${e}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+            .then( response => {
+                if(response.data.status){
+                    this.$swal({
+                        title: 'Success',
+                        text: `${response.data.message}`,
+                        icon: 'success',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Ok'
+                    }).then((result) => {
+                        this.getData();
+                    })
+                } else {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: `${response.data.message}`,
+                    })
+                }
+            }).catch( err => {
+                console.log(err)
+            });
+        },
+        getData: function(){
+            axios.get(`api/profileUser/${this.$store.state.UserData.id}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
             .then( response => {
                 this.DataProfile = response.data;
             }).catch( err => {
                 console.log(err)
             });
+        }
     }
 }
 </script>

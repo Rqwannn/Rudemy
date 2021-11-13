@@ -307,3 +307,22 @@ def InsertMessage(request):
         return Response(result)
 
 # End Inbox Logic
+
+# Skill Logic
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def DeleteSkill(request, pk):
+    profile = request.user.profile
+    getSkill = profile.skill.get(id=pk)
+    getSkill.delete()
+
+    context = {
+        'status': True,
+        'message': 'Data Has Been Deleted'
+    }
+
+    return Response(context)
+
+# End Skill Logic
