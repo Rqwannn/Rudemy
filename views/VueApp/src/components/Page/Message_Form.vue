@@ -1,6 +1,5 @@
 <template>
     <div>
-        <Navbar></Navbar>
 
         <main class="formPage my-xl">
             <div class="content-box">
@@ -40,7 +39,6 @@
     </div>
 </template>
 <script>
-import NavBar from '../Template/Navbar'
 import { axios } from '../../axios-api'
 
 export default {
@@ -50,11 +48,9 @@ export default {
             Name: '',
             Email: '',
             Subject: '',
-            Body: ''
+            Body: '',
+            Title: "Message Form | Rudemy"
         }
-    },
-    components: {
-        'Navbar': NavBar
     },
     methods:{
         SubmitMessage: function(){
@@ -91,6 +87,14 @@ export default {
                 .catch( err => console.log(err) )
             }
         }
-    }
+    },
+    watch: {
+        title: {
+            immediate: true,
+            handler() {
+                document.title = this.Title;
+            }
+        },
+    },
 }
 </script>

@@ -96,7 +96,8 @@ export default {
             OwnerID: 0,
             body: '',
             Vote: '',
-            Warning: ''
+            Warning: '',
+            Title: "User Course | Rudemy"
         }
     },
     computed: {
@@ -150,7 +151,15 @@ export default {
             .catch(err => {
             console.log(err)
             })
-        }
-    }
+        },
+    },
+    watch: {
+        title: {
+            immediate: true,
+            handler() {
+                document.title = this.Title;
+            }
+        },
+    },
 }
 </script>

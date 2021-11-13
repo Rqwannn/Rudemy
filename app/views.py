@@ -12,6 +12,7 @@ from .models import *
 from .serializers import *
 from .forms import *
 from .utils import *
+import os
 
 # Create your views here.
 
@@ -131,6 +132,36 @@ def UserProfile(request, pk):
         return HttpResponseNotFound('Not Found')
     except ValidationError:
         return HttpResponseNotFound('Not Found')
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def EditUser(request):
+    user = Profile.objects.get(user=request.user)
+    form = ProfileForm(instance=user)
+
+    ProfileData = {
+        'name': request.data.get('name'),
+        'location': request.data.get('location'),
+        'short_intro': request.data.get('short_intro'),
+        'bio': request.data.get('bio'),
+    }
+
+    form = ProfileForm(ProfileData, instance=user)
+
+    if form.is_valid():
+
+        change = form.save(commit=False)
+        change.user.email = request.data.get('email')
+        change.user.username = request.data.get('username')
+        form.save()
+
+        context = {
+            'status': True,
+            'message': 'User Berhasil Di Update'
+        }
+
+        return Response(context)
 
 # End Developer Page Logic
 

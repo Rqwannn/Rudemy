@@ -8,11 +8,9 @@
             <div class="column column--1of3">
                 <div class="card text-center">
                 <div class="card__body dev">
-                    <a
-                    class="tag tag--pill tag--main settings__btn"
-                    href="#"
-                    ><i class="im im-edit"></i> Edit</a
-                    >
+                    <router-link class="tag tag--pill tag--main settings__btn" :to="{name:'EditUser', params: {id : DataProfile.id}}">
+                        <i class="im im-edit"></i> Edit
+                    </router-link>
                     <img
                     class="avatar avatar--xl dev__avatar"
                     :src="Path + '' + DataProfile.profile_image"

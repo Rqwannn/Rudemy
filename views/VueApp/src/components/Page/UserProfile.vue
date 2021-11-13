@@ -79,7 +79,8 @@ export default {
         return {
             Data: [],
             Profile: [],
-            Path: URL
+            Path: URL,
+            Title: "User Profile | Rudemy"
         }
     },
     components:{
@@ -94,6 +95,14 @@ export default {
         .catch(err => {
           console.log(err)
         })
-    }
+    },
+    watch: {
+        title: {
+            immediate: true,
+            handler() {
+                document.title = this.Title;
+            }
+        },
+    },
 }
 </script>

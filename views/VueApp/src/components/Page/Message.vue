@@ -1,7 +1,5 @@
 <template>
     <div>
-        <Navbar></Navbar>
-
           <main class="messagePage my-xl">
             <div class="content-box">
                 <div class="message">
@@ -24,19 +22,16 @@
 </template>
 
 <script>
-import NavBar from '../Template/Navbar'
 import { axios } from '../../axios-api'
 
 export default {
     data(){
         return {
             Data: [],
+            Title: "Message | Rudemy"
         }
     },
     props: ['id'],
-    components: {
-        'Navbar': NavBar
-    },
     created(){
         this.getData()
     },
@@ -48,6 +43,14 @@ export default {
                     console.log(this.Data)
                 }).catch( err => console.log(err) )
         }
-    }
+    },
+    watch: {
+        title: {
+            immediate: true,
+            handler() {
+                document.title = this.Title;
+            }
+        },
+    },
 }
 </script>

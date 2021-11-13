@@ -21,8 +21,6 @@ def UpdateUser(sender, instance, created, **kwargs):
     user = data.user
     if created == False:
         user.first_name = data.name
-        user.username = data.username
-        user.email = data.email
         user.save()
 
 

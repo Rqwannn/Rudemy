@@ -27,3 +27,15 @@ class MessageForm(ModelForm):
     class Meta:
         model = Message
         fields = ['name', 'email', 'subject', 'body']
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['name', 'location', 'short_intro', 'bio']
+
+
+class EditUserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['email', 'username']
