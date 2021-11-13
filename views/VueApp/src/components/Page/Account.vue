@@ -7,32 +7,30 @@
             <div class="layout">
             <div class="column column--1of3">
                 <div class="card text-center">
-                <div class="card__body dev">
-                    <router-link class="tag tag--pill tag--main settings__btn" :to="{name:'EditUser', params: {id : DataProfile.id}}">
-                        <i class="im im-edit"></i> Edit
-                    </router-link>
-                    <img
-                    class="avatar avatar--xl dev__avatar"
-                    :src="Path + '' + DataProfile.profile_image"
-                    />
-                    <h2 class="dev__name">{{ DataProfile.name }}</h2>
-                    <p class="dev__title">{{ DataProfile.short_intro }}</p>
-                    <p class="dev__location">Based In {{ DataProfile.location }}</p>
-                </div>
+                    <div class="card__body dev">
+                        <router-link class="tag tag--pill tag--main settings__btn" :to="{name:'EditUser', params: {id : DataProfile.id}}">
+                            <i class="im im-edit"></i> Edit
+                        </router-link>
+                        <img
+                        class="avatar avatar--xl dev__avatar"
+                        :src="Path + '' + DataProfile.profile_image"
+                        />
+                        <h2 class="dev__name">{{ DataProfile.name }}</h2>
+                        <p class="dev__title">{{ DataProfile.short_intro }}</p>
+                        <p class="dev__location">Based In {{ DataProfile.location }}</p>
+                    </div>
                 </div>
             </div>
             <div class="column column--2of3">
                 <div class="devInfo">
-                <h3 class="devInfo__title">About Me</h3>
-                <p class="devInfo__about">{{ DataProfile.bio }}</p>
+                    <h3 class="devInfo__title">About Me</h3>
+                    <p class="devInfo__about">{{ DataProfile.bio }}</p>
                 </div>
                 <div class="settings">
-                <h3 class="settings__title">Skills</h3>
-                <a
-                    class="tag tag--pill tag--sub settings__btn tag--lg"
-                    href="#"
-                    ><i class="im im-plus"></i> Add Skill</a
-                >
+                    <h3 class="settings__title">Skills</h3>
+                    <router-link class="tag tag--pill tag--sub settings__btn tag--lg" :to="{name:'TambahSkill'}">
+                        <i class="im im-plus"></i> Add Skill
+                    </router-link>
                 </div>
 
                 <table class="settings__table">

@@ -39,3 +39,9 @@ class EditUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'username']
+
+
+class TagForm(ModelForm):
+    class Meta:
+        model = Tag
+        fields = ['name']

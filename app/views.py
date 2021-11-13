@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.db.models import Q
 from .models import *
 from .serializers import *
 from .forms import *
@@ -311,12 +312,32 @@ def InsertMessage(request):
 # Skill Logic
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def InsertSkill(request):
+    account = request.user.profile
+    newskills = request.data.get('newskills').replace(',', " ").split()
+
+    for result in newskills:
+        tag, created = Tag.objects.get_or_create(name=result)
+        account.skill.add(tag)
+
+    context = {
+        'status': True,
+        'message': 'Skill Has Benn Added'
+    }
+
+    return Response(context)
+
+
 @api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def DeleteSkill(request, pk):
+    # ~Q => NOT Equal ( != )
+    # getSkill = profile.skill.filter(~Q(id=pk))
+
     profile = request.user.profile
-    getSkill = profile.skill.get(id=pk)
-    getSkill.delete()
+    profile.skill.remove(pk)
 
     context = {
         'status': True,
