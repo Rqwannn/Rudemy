@@ -320,6 +320,26 @@ def InsertCourse(request):
         return Response(context)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def DeleteCourse(request, pk):
+    user = request.user.profile
+    course = user.course_set.get(id=pk)
+    path = settings.MEDIA_ROOT + "/" + str(course.featured_image)
+
+    if os.path.isfile(path):
+        os.remove(path)
+
+    course.delete()
+
+    context = {
+        'status': True,
+        'message': 'Course successfully deleted'
+    }
+
+    return Response(context)
+
+
 # End Course Logic
 
 # Inbox Logic

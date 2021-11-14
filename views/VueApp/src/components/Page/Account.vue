@@ -59,13 +59,15 @@
                 <table class="settings__table">
                     <tr v-for="result in DataProfile.course_set" :key="result.id">
                         <td class="settings__thumbnail">
-                        <a href="#"
-                            ><img :src="Path + '' + result.featured_image" alt="Project Thumbnail"
-                        /></a>
+                            <router-link :to="{name:'UserCourse', params: {id: result.id}}">
+                                <img :src="Path + '' + result.featured_image" alt="Project Thumbnail"/>
+                            </router-link>
                         </td>
                         <td class="settings__tableInfo">
-                        <a href="#">{{ result.title }}</a>
-                        <p>{{ result.description }}</p>
+                            <router-link :to="{name:'UserCourse', params: {id: result.id}}">
+                                {{ result.title }}
+                            </router-link>
+                            <p>{{ result.description }}</p>
                         </td>
                         <td class="settings__tableActions">
                         <a
@@ -74,8 +76,9 @@
                             ><i class="im im-edit"></i> Edit</a
                         >
                         <a
+                            @click.prevent="DeleteCourse(result.id)"
                             class="tag tag--pill tag--main settings__btn"
-                            href="#"
+                            href=""
                             ><i class="im im-x-mark-circle-o"></i> Delete</a
                         >
                         </td>
@@ -122,6 +125,18 @@ export default {
     methods:{
         Upload (e){
             this.ProfileImg = e.target.files[0]
+            const blob = this.ProfileImg.slice(0, this.ProfileImg.size, `${this.ProfileImg.type}`);
+            let changeName = `${this.ProfileImg.name.split('.')[0]}-`;
+
+            for(let i = 0; i < 20; i++){
+                let setNumber = Math.floor(Math.random() * (18 - 0 + 1)) + 0;
+                let random = 'LksS9Ms5H6aiAB23Oe3';
+                changeName += random[setNumber];
+            }
+
+            const newFile = new File([blob], `${changeName}.${this.ProfileImg.name.split('.').at(-1)}`, {type: `${this.ProfileImg.type}`});
+            this.ProfileImg = newFile
+
             if(this.ProfileImg == null){
                 this.$swal({
                     icon: 'error',
@@ -170,29 +185,41 @@ export default {
             }
         },
         DeleteSkill: function(e){
-            axios.delete(`api/DeleteSkill/${e}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
-            .then( response => {
-                if(response.data.status){
-                    this.$swal({
-                        title: 'Success',
-                        text: `${response.data.message}`,
-                        icon: 'success',
-                        showCancelButton: false,
-                        confirmButtonColor: '#3085d6',
-                        confirmButtonText: 'Ok'
-                    }).then((result) => {
-                        this.getData();
-                    })
-                } else {
-                    this.$swal({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: `${response.data.message}`,
-                    })
+            this.$swal({
+                title: 'Attention',
+                text: `Are you sure you want to delete this skill?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`api/DeleteSkill/${e}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+                    .then( response => {
+                        if(response.data.status){
+                            this.$swal({
+                                title: 'Success',
+                                text: `${response.data.message}`,
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                this.getData();
+                            })
+                        } else {
+                            this.$swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: `${response.data.message}`,
+                            })
+                        }
+                    }).catch( err => {
+                        console.log(err)
+                    });
                 }
-            }).catch( err => {
-                console.log(err)
-            });
+            })
         },
         getData: function(){
             axios.get(`api/profileUser/${this.$store.state.UserData.id}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
@@ -215,6 +242,42 @@ export default {
                 if (result.isConfirmed) {
                     const UploadProfileIMG = document.querySelector('.UploadProfileIMG');
                     UploadProfileIMG.click()
+                }
+            })
+        },
+        DeleteCourse: function(e){
+            this.$swal({
+                title: 'Attention',
+                text: `Are you sure you want to delete this course?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`/api/deleteCourse/${e}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+                    .then(response => {
+                        if(response.data.status){
+                            this.$swal({
+                                title: 'Success',
+                                text: `${response.data.message}`,
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                this.getData();
+                            })
+                        } else {
+                            this.$swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: `${response.data.message}`,
+                            })
+                        }
+                    })
+                    .catch( err => console.log(err) )
                 }
             })
         }

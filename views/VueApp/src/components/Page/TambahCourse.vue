@@ -88,6 +88,18 @@ export default {
         Upload (e){
             this.PreviewImg = URL.createObjectURL(e.target.files[0]);
             this.Featured_Image = e.target.files[0];
+
+            const blob = this.Featured_Image.slice(0, this.Featured_Image.size, `${this.Featured_Image.type}`);
+            let changeName = `${this.Featured_Image.name.split('.')[0]}-`;
+
+            for(let i = 0; i < 20; i++){
+                let setNumber = Math.floor(Math.random() * (18 - 0 + 1)) + 0;
+                let random = 'Uysx1Ms6HfaiAZ23Oe3';
+                changeName += random[setNumber];
+            }
+
+            const newFile = new File([blob], `${changeName}.${this.Featured_Image.name.split('.').at(-1)}`, {type: `${this.Featured_Image.type}`});
+            this.Featured_Image = newFile
         },
         Submit: function(){
             if(this.ProjectTitle == "" || this.Featured_Image == null || this.Description == "" || this.Demo_Link == "" || this.Source_Link == "" || this.Tags == ""){

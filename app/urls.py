@@ -19,6 +19,7 @@ urlpatterns = [
     path('UpdateProfileImg/', views.UpdateProfileImg, name='UpdateProfileImg'),
     path('getCourse/<str:pk>', views.UserCourse, name='GetCourse'),
     path('insertCourse/', views.InsertCourse, name='InsertCourse'),
+    path('deleteCourse/<str:pk>', views.DeleteCourse, name='DeleteCourse'),
     path('course/', views.CourseAPI.as_view(), name='Course'),
     path('insertReview/', views.ReviewCourse, name='insertReview'),
     path('getMessage/<str:pk>', views.getMessage, name='Inbox'),
