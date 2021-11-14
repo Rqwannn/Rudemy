@@ -9,7 +9,7 @@ from django.contrib.auth import login, authenticate
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models import Q
-from django.http import JsonResponse
+from django.conf import settings
 from .models import *
 from .serializers import *
 from .forms import *
@@ -17,6 +17,8 @@ from .utils import *
 import os
 
 # Create your views here.
+
+upload_to = 'profile-pics'
 
 # Remove end spaces
 
@@ -193,7 +195,24 @@ def EditUser(request):
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def UpdateProfileImg(request):
-    return
+    user = request.user.profile
+    path = settings.MEDIA_ROOT + "/" + str(user.profile_image)
+    defaultImg = settings.MEDIA_ROOT + "/" + 'profile-pics' + '/user-default.png'
+
+    form = ChangeImgProfile(request.POST, request.FILES, instance=user)
+
+    if form.is_valid():
+        if path != defaultImg:
+            if os.path.isfile(path):
+                os.remove(path)
+        form.save()
+
+    context = {
+        'status': True,
+        'message': 'User Successfully Update'
+    }
+
+    return Response(context)
 
 # End Developer Page Logic
 
@@ -280,13 +299,6 @@ def InsertCourse(request):
         'demo_link': request.data.get('demo_link'),
         'source_link': request.data.get('source_link'),
     }
-
-    context = {
-        'status': True,
-        'message': 'Course added successfully'
-    }
-
-    return Response(context)
 
     form = CourseForm(dataCourse, request.FILES)
 
