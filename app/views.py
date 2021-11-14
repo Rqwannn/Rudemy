@@ -9,6 +9,7 @@ from django.contrib.auth import login, authenticate
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db.models import Q
+from django.http import JsonResponse
 from .models import *
 from .serializers import *
 from .forms import *
@@ -16,6 +17,30 @@ from .utils import *
 import os
 
 # Create your views here.
+
+# Remove end spaces
+
+
+def remove_end_spaces(string):
+    return "".join(string.rstrip())
+
+# Remove first and  end spaces
+
+
+def remove_first_end_spaces(string):
+    return "".join(string.rstrip().lstrip())
+
+# Remove all spaces
+
+
+def remove_all_spaces(string):
+    return "".join(string.split())
+
+# Remove all extra spaces
+
+
+def remove_all_extra_spaces(string):
+    return " ".join(string.split())
 
 # Auth Logic
 
@@ -159,10 +184,16 @@ def EditUser(request):
 
         context = {
             'status': True,
-            'message': 'User Berhasil Di Update'
+            'message': 'User Successfully Update'
         }
 
         return Response(context)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def UpdateProfileImg(request):
+    return
 
 # End Developer Page Logic
 
@@ -229,6 +260,53 @@ def ReviewCourse(request):
     AllData.getVoteCount
 
     return Response('Success')
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def InsertCourse(request):
+    profile = request.user.profile
+
+    # Created Data
+    newtags = []
+    tags = request.data.get('tags').split(',')
+
+    for result in tags:
+        newtags.append(remove_first_end_spaces(result))
+
+    dataCourse = {
+        'title': request.data.get('title'),
+        'description': request.data.get('description'),
+        'demo_link': request.data.get('demo_link'),
+        'source_link': request.data.get('source_link'),
+    }
+
+    context = {
+        'status': True,
+        'message': 'Course added successfully'
+    }
+
+    return Response(context)
+
+    form = CourseForm(dataCourse, request.FILES)
+
+    if form.is_valid():
+        course = form.save(commit=False)
+        course.owner = profile
+
+        course.save()
+
+        for tag in newtags:
+            tag, created = Tag.objects.get_or_create(name=tag)
+            course.tags.add(tag)
+
+        context = {
+            'status': True,
+            'message': 'Course added successfully'
+        }
+
+        return Response(context)
+
 
 # End Course Logic
 
@@ -316,7 +394,11 @@ def InsertMessage(request):
 @permission_classes([IsAuthenticated])
 def InsertSkill(request):
     account = request.user.profile
-    newskills = request.data.get('newskills').replace(',', " ").split()
+    newskills = []
+    skill = request.data.get('newskills').split(',')
+
+    for result in skill:
+        newskills.append(remove_first_end_spaces(result))
 
     for result in newskills:
         tag, created = Tag.objects.get_or_create(name=result)

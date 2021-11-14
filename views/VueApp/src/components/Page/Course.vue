@@ -87,6 +87,8 @@ export default {
 
         axios.get('/api/course/', { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
         .then(response => {
+          this.$store.state.APIData = response.data;
+          
           if(response.data.next != null){
             const PisahPath = response.data.next.split("/");
             const AmbilTerakhir = PisahPath[PisahPath.length - 1];
@@ -103,7 +105,6 @@ export default {
             this.$router.push(`${this.$route.path}?page=1`).catch(() => {});
           }
 
-          this.$store.state.APIData = response.data;
         })
         .catch(err => {
           console.log(err)

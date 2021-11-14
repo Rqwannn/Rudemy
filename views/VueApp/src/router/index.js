@@ -9,6 +9,7 @@ import UserCourse from '@/components/Page/UserCourse'
 import Message from '@/components/Page/Message'
 import Message_Form from '@/components/Page/Message_Form'
 import TambahSkill from '@/components/Page/TambahSkill'
+import TambahCourse from '@/components/Page/TambahCourse'
 import EditUser from '@/components/Page/EditUser'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
@@ -54,6 +55,14 @@ const Url =
             path: '/TambahSkill',
             name: 'TambahSkill',
             component: TambahSkill,
+            meta: {
+                requiresLogin: true
+            }
+        },
+        {
+            path: '/TambahCourse',
+            name: 'TambahCourse',
+            component: TambahCourse,
             meta: {
                 requiresLogin: true
             }

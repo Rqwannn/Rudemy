@@ -6,7 +6,7 @@
                     <a :href="Prev" class="btn page-link" @click.prevent="ClickPagination($event)" :data-page="Prev">Prev</a>
                 </li>
 
-                <li v-for="result in Data.count - Data.results.length" :key="result">
+                <li v-for="result in Data.count - (Data.results.length == 1 ? 2 : Data.results.length)" :key="result">
                     <a :href="'?page=' + result " v-if="result == AktifPage" id="PagePagination" @click.prevent="ClickPagination($event)" :data-page="'?page=' + result" class="btn page-link CheckIndex btn--sub">{{ result }}</a>
                     <a :href="'?page=' + result " v-else @click.prevent="ClickPagination($event)" :data-page="'?page=' + result " class="btn CheckIndex page-link">{{ result }}</a>
                 </li>
@@ -34,11 +34,11 @@ export default {
         }
     },
     created(){
-        this.Data = this.$store.state.APIData;
         this.Next = this.$store.state.PaginationNext;
         this.Prev = this.$store.state.PaginationPrev;
     },
     updated(){
+        this.Data = this.$store.state.APIData;
         this.AktifPage = this.$route.query.page;
     },
     computed: {

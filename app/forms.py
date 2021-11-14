@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django import forms
 from .models import *
 
 
@@ -45,3 +46,10 @@ class TagForm(ModelForm):
     class Meta:
         model = Tag
         fields = ['name']
+
+
+class CourseForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'featured_image', 'description',
+                  'demo_link', 'source_link']

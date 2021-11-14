@@ -47,12 +47,10 @@
                 </table>
 
                 <div class="settings">
-                <h3 class="settings__title">Course</h3>
-                <a
-                    class="tag tag--pill tag--sub settings__btn tag--lg"
-                    href="#"
-                    ><i class="im im-plus"></i> Add Course</a
-                >
+                    <h3 class="settings__title">Course</h3>
+                    <router-link class="tag tag--pill tag--sub settings__btn tag--lg" :to="{name:'TambahCourse'}">
+                        <i class="im im-plus"></i> Add Course
+                    </router-link>
                 </div>
 
                 <table class="settings__table">
