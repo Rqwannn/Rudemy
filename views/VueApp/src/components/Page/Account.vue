@@ -70,11 +70,9 @@
                             <p>{{ result.description }}</p>
                         </td>
                         <td class="settings__tableActions">
-                        <a
-                            class="tag tag--pill tag--main settings__btn"
-                            href="#"
-                            ><i class="im im-edit"></i> Edit</a
-                        >
+                        <router-link :to="{name:'EditCourse', params: {id: result.id}}" class="tag tag--pill tag--main settings__btn" >
+                            <i class="im im-edit"></i> Edit
+                        </router-link>
                         <a
                             @click.prevent="DeleteCourse(result.id)"
                             class="tag tag--pill tag--main settings__btn"

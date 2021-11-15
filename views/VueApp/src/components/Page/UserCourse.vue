@@ -141,7 +141,6 @@ export default {
         getData: function(){
             axios.get(`/api/getCourse/${this.$route.params.id}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
             .then(response => {
-                console.log(response)
                 this.is_authenticated = response.data.authenticated
                 this.Data = response.data.data;
                 this.Profile = response.data.profile;

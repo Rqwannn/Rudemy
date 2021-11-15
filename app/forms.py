@@ -55,6 +55,13 @@ class CourseForm(ModelForm):
                   'demo_link', 'source_link']
 
 
+class CourseWithoutIMGForm(ModelForm):
+    class Meta:
+        model = Course
+        fields = ['title', 'description',
+                  'demo_link', 'source_link']
+
+
 class ChangeImgProfile(ModelForm):
     class Meta:
         model = Profile

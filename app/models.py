@@ -15,6 +15,7 @@ class Profile(models.Model):
     profile_image = models.ImageField(
         null=True, blank=True, upload_to='profile-pics', default='profile-pics/user-default.png')
     skill = models.ManyToManyField('Tag', blank=True)
+    status = models.CharField(max_length=200, default=0)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)
@@ -68,6 +69,7 @@ class Course(models.Model):
     tags = models.ManyToManyField('Tag', blank=True)
     vote_total = models.IntegerField(default=0, null=True, blank=True)
     vote_ratio = models.IntegerField(default=0, null=True, blank=True)
+    status = models.CharField(max_length=200, default=0)
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True,
                           primary_key=True, editable=False)

@@ -340,6 +340,59 @@ def DeleteCourse(request, pk):
     return Response(context)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def DeleteCourseTag(request, TagID, CourseID):
+    profile = request.user.profile
+    course = profile.course_set.get(id=CourseID)
+    course.tags.remove(TagID)
+
+    context = {
+        'status': True,
+        'message': 'Course successfully updated'
+    }
+
+    return Response(context)
+
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def EditCourse(request):
+    profile = request.user.profile
+    course = profile.course_set.get(id=request.data.get('idProject'))
+    newtags = []
+
+    if request.data.get('newtags'):
+        tags = request.data.get('newtags').split(',')
+        for result in tags:
+            newtags.append(remove_first_end_spaces(result))
+
+    if request.FILES:
+        form = CourseForm(request.POST, request.FILES, instance=course)
+        path = settings.MEDIA_ROOT + "/" + str(course.featured_image)
+
+        if form.is_valid():
+            if os.path.isfile(path):
+                os.remove(path)
+    else:
+        form = CourseWithoutIMGForm(request.POST, instance=course)
+
+    if form.is_valid():
+        form.save()
+
+        if len(newtags) > 0:
+            for tag in newtags:
+                tag, created = Tag.objects.get_or_create(name=tag)
+                course.tags.add(tag)
+
+    context = {
+        'status': True,
+        'message': 'Course successfully updated'
+    }
+
+    return Response(context)
+
+
 # End Course Logic
 
 # Inbox Logic

@@ -11,6 +11,7 @@ import Message_Form from '@/components/Page/Message_Form'
 import TambahSkill from '@/components/Page/TambahSkill'
 import TambahCourse from '@/components/Page/TambahCourse'
 import EditUser from '@/components/Page/EditUser'
+import EditCourse from '@/components/Page/EditCourse'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
 import Logout from '@/components/Page/Logout'
@@ -107,6 +108,15 @@ const Url =
             path: '/EditUser/:id',
             name: 'EditUser',
             component: EditUser,
+            props: true,
+            meta: {
+                requiresLogin: true
+            }
+        },
+        {
+            path: '/EditCourse/:id',
+            name: 'EditCourse',
+            component: EditCourse,
             props: true,
             meta: {
                 requiresLogin: true
