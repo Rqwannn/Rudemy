@@ -17,6 +17,8 @@ urlpatterns = [
     path('getUser/<str:pk>', views.UserProfile, name='GetUser'),
     path('editUser/', views.EditUser, name='EditUser'),
     path('UpdateProfileImg/', views.UpdateProfileImg, name='UpdateProfileImg'),
+    path('UpdateStatusProfile/', views.UpdateStatusProfile,
+         name='UpdateStatusProfile'),
     path('getCourse/<str:pk>', views.UserCourse, name='GetCourse'),
     path('insertCourse/', views.InsertCourse, name='InsertCourse'),
     path('deleteCourse/<str:pk>', views.DeleteCourse, name='DeleteCourse'),

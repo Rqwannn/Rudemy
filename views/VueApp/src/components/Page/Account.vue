@@ -49,14 +49,14 @@
                     </tr>
                 </table>
 
-                <div class="settings">
+                <div class="settings" v-if="DataProfile.status == 1">
                     <h3 class="settings__title">Course</h3>
                     <router-link class="tag tag--pill tag--sub settings__btn tag--lg" :to="{name:'TambahCourse'}">
                         <i class="im im-plus"></i> Add Course
                     </router-link>
                 </div>
 
-                <table class="settings__table">
+                <table class="settings__table" v-if="DataProfile.status == 1">
                     <tr v-for="result in DataProfile.course_set" :key="result.id">
                         <td class="settings__thumbnail">
                             <router-link :to="{name:'UserCourse', params: {id: result.id}}">
@@ -82,6 +82,7 @@
                         </td>
                     </tr>
                 </table>
+                <p v-else>Your status is still a participant, <a href="/" @click.prevent="BecomeTeach()">do you want to teach?</a></p>
             </div>
             </div>
         </div>
@@ -256,6 +257,42 @@ export default {
                 if (result.isConfirmed) {
                     axios.delete(`/api/deleteCourse/${e}`, { headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
                     .then(response => {
+                        if(response.data.status){
+                            this.$swal({
+                                title: 'Success',
+                                text: `${response.data.message}`,
+                                icon: 'success',
+                                showCancelButton: false,
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                this.getData();
+                            })
+                        } else {
+                            this.$swal({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: `${response.data.message}`,
+                            })
+                        }
+                    })
+                    .catch( err => console.log(err) )
+                }
+            })
+        },
+        BecomeTeach: function(){
+            this.$swal({
+                title: 'Attention',
+                text: `Are you sure?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.put('/api/UpdateStatusProfile/', {'status': 1},{ headers: { Authorization: `Bearer ${this.$store.state.accessToken}` } })
+                    .then( response => {
                         if(response.data.status){
                             this.$swal({
                                 title: 'Success',

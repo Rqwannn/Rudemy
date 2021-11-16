@@ -214,6 +214,23 @@ def UpdateProfileImg(request):
 
     return Response(context)
 
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def UpdateStatusProfile(request):
+    user = request.user.profile
+
+    form = ChangeStatusProfile(request.data, instance=user)
+
+    if form.is_valid():
+        form.save()
+        context = {
+            'status': True,
+            'message': 'You are now a teacher'
+        }
+
+        return Response(context)
+
 # End Developer Page Logic
 
 # Course Logic
@@ -349,7 +366,7 @@ def DeleteCourseTag(request, TagID, CourseID):
 
     context = {
         'status': True,
-        'message': 'Course successfully updated'
+        'message': 'Tags successfully deleted'
     }
 
     return Response(context)

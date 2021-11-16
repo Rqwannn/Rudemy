@@ -66,3 +66,9 @@ class ChangeImgProfile(ModelForm):
     class Meta:
         model = Profile
         fields = ['profile_image']
+
+
+class ChangeStatusProfile(ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['status']
