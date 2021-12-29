@@ -15,7 +15,7 @@
                     <a v-if="Data.source_link" class="singleProject__liveLink" :href="Data.source_link" target="_blank">
                         <i class="im im-external-link"></i>Source Code
                     </a>
-                    <a v-else-if="Data.demo_link" class="singleProject__liveLink" :href="Data.demo_link" target="_blank">
+                    <a v-if="Data.demo_link" class="singleProject__liveLink" :href="Data.demo_link" target="_blank">
                         <i class="im im-external-link"></i>Live Demo
                     </a>
                 </div>
