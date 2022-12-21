@@ -15,11 +15,16 @@ import EditCourse from '@/components/Page/EditCourse'
 import Login from '@/components/Page/Login'
 import Register from '@/components/Page/Register'
 import Logout from '@/components/Page/Logout'
+// import Logout from '@/components/Page/NotFound' sama un comment ini juga ( ato bebas kalo mau custom )
 
 Vue.use(Router)
 
 const Url = 
     [
+//         { 
+//             path: '*', 
+//             component: NotFound 
+//         }, Note => Jika ingin menambahkan not found page di un comment aja
         {
             path: '/',
             name: 'Home',
